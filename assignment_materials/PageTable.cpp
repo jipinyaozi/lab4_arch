@@ -101,9 +101,9 @@ int main(int argc, char *argv[])
           bitset<12> outerAddr = PTBR.to_ulong() + (outerIndex.to_ulong() << 2);
           bitset<32> outerEntry = myPhyMem.outputMemValue(outerAddr);
           bool outerValid = outerEntry[0];
-          cout << "outeraddr" << outerAddr;
-          cout << "outervalid" << outerValid;
-          cout << "outerentry" << outerEntry <<"\n";
+          // cout << "outeraddr" << outerAddr;
+          // cout << "outervalid" << outerValid;
+          // cout << "outerentry" << outerEntry <<"\n";
 
           // If outer page table entry is valid, access the inner page table
          bitset<12> innerBase(outerEntry.to_string().substr(0, 12));
