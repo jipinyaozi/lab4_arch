@@ -36,7 +36,7 @@ class PhyMem
     }  
     bitset<32> outputMemValue (bitset<12> Address) 
     {    
-    unsigned long index = Address.to_ulong() - 1;
+    unsigned long index = Address.to_ulong() + 1;
     // cout << "index" << index <<"\n\n";
     bitset<32> readdata;
     if (index < MemSize - 4) {
@@ -44,7 +44,7 @@ class PhyMem
         for (int i = 0; i < 4; i++) {
             bitset<8> byte = DMem[index + i];
             for (int j = 0; j < 8; j++) {
-                readdata[32 - (i * 8 + j)] = byte[j];
+                readdata[i * 8 + j] = byte[j];
             }
         }
     }
@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
     {
         while (getline(traces, line))
         {
+          bitset<32> tempaddr = myPhyMem.outputMemValue(0x19c);
+          cout << hex << tempaddr << "\n";
 
           virtualAddr = bitset<14>(line);
         
@@ -112,7 +114,7 @@ int main(int argc, char *argv[])
           // If inner page table entry is valid, calculate the physical address
          bitset<12> frame(innerEntry.to_string().substr(26, 6));
          bitset<12> physicalAddr = (frame.to_ulong() << 6) + offset.to_ulong();
-         cout << "physical" << physicalAddr;
+        //  cout << "physical" << physicalAddr;
          bitset<32> value = myPhyMem.outputMemValue(physicalAddr);
          tracesout << outerValid << " " << innerValid << " ";
          if (outerValid && innerValid) {
